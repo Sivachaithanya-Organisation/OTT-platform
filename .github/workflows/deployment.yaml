@@ -1,0 +1,63 @@
+name: Docker deployment pipeline
+
+# Here you will be mentioning on which branches the pipeline should get triggered.
+on:
+  push:
+    branches:
+      - main
+      - preprod
+      - development
+
+env:
+  REPOSITORY_NAME: harini-ott-docker
+
+jobs:
+
+  Build-docker image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Login to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: docker build and push
+        env:
+          registryname: ${{ steps.ecr.output.registry }} # 794934876309.dkr.ecr.us-west-2.amazonaws.com
+          repositoryname: ${{ env.REPOSITORY_NAME }} # harini-ott-docker
+          tag: ${{ github.sha }} # tag
+        run: |
+          docker build -t $registryname/$repositoryname:$tag .
+          docker push $registryname/$repositoryname:$tag
+
+  deploy job:
+    runs-on: ubuntu-latest
+    needs-on: Build-docker image
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Execute remote SSH commands using password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          tag: ${{ github.sha }}
+          script: |
+            aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 794934876309.dkr.ecr.us-west-2.amazonaws.com
+            docker pull 794934876309.dkr.ecr.us-west-2.amazonaws.com/harini-ott-docker:$tag
+            docker rm -f harini-ott
+            docker run -itd -p 5000:5000 --name harini-ott 794934876309.dkr.ecr.us-west-2.amazonaws.com/harini-ott-docker:$tag

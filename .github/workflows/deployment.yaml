@@ -31,7 +31,7 @@ jobs:
 
       - name: docker build and push
         env:
-          registryname: ${{ steps.ecr.output.registry }} # 794934876309.dkr.ecr.us-west-2.amazonaws.com
+          registryname: ${{ steps.ecr.outputs.registry }} # 794934876309.dkr.ecr.us-west-2.amazonaws.com
           repositoryname: ${{ env.REPOSITORY_NAME }} # harini-ott-docker
           tag: ${{ github.sha }} # tag
         run: |

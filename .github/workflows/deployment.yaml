@@ -59,6 +59,6 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 794934876309.dkr.ecr.us-west-2.amazonaws.com
-            docker pull 794934876309.dkr.ecr.us-west-2.amazonaws.com/harini-ott-docker:$tag
+            docker pull 794934876309.dkr.ecr.us-west-2.amazonaws.com/harini-ott-docker:${{ github.sha }}
             docker rm -f harini-ott
-            docker run -itd -p 3000:3000 --name harini-ott 794934876309.dkr.ecr.us-west-2.amazonaws.com/harini-ott-docker:$tag
+            docker run -itd -p 3000:3000 --name harini-ott 794934876309.dkr.ecr.us-west-2.amazonaws.com/harini-ott-docker:${{ github.sha }}

@@ -1,0 +1,29 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "ott-platform"
+  namespace: "media"
+  labels:
+    app: "backend"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "backend"
+  template:
+    metadata:
+      labels:
+        app: "backend"
+    spec:
+      containers:
+        - name: "ott-platform"
+          image: "517293881035.dkr.ecr.us-west-2.amazonaws.com/siva-k8s:IMAGE_TAG"
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

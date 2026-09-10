@@ -73,4 +73,4 @@ jobs:
 
       - name: helm upgrade
         run: |
-          helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH --namespae $NAMESPACE --set image.tag=${{ github.sha }} --wait --timeout 2m
+          helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH --namespace $NAMESPACE --set image.tag=${{ github.sha }} --wait --timeout 2m

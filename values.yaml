@@ -1,4 +1,4 @@
-replicaCount: 3
+replicaCount: 5
 
 image:
   repository: 517293881035.dkr.ecr.us-west-2.amazonaws.com/siva-k8s

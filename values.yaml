@@ -12,7 +12,6 @@ service:
 
 ingress:
   enabled: true
-  className: ott-platform
   class: alb
   scheme: ineternet-facing
   targetType: ip

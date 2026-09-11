@@ -13,8 +13,8 @@ metadata:
     alb.ingress.kubernetes.io/ssl-redirect: '{{ .Values.ingress.sslRedirect }}'
     alb.ingress.kubernetes.io/certificate-arn: {{ .Values.ingress.certificateARN }}
 spec:
-  {{- if .Values.ingress.className }}
-  ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.class }}
+  ingressClassName: {{ .Values.ingress.class }}
   {{- end }}
   rules:
     - host: {{ .Values.ingress.host }}

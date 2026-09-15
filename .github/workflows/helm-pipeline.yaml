@@ -59,7 +59,7 @@ jobs:
       # Installing the kubectl in the github action runner 
       - name: configure EKS cluster with kubectl
         run: |
-          aws eks update-kubeconfig --region us-west-2 --name $EKS_CLUSTER_NAME
+          aws eks update-kubeconfig --region eu-north-1 --name $EKS_CLUSTER_NAME
       
       # - name: replacing the image-id with github.sha
       #   run: |

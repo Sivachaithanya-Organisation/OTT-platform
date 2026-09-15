@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  EKS_CLUSTER_NAME: SampleCluster
+  EKS_CLUSTER_NAME: HK-Sample-cluster
   HELM_RELEASE_NAME: ott-platform
   HELM_CHART_PATH: .
   NAMESPACE: media
@@ -25,7 +25,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
+          aws-region: eu-north-1
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -34,7 +34,7 @@ jobs:
       - name: Build, Tag, and Push Docker Image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: siva-k8s
+          REPOSITORY: hk-test-image
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
@@ -54,7 +54,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
+          aws-region: eu-north-1
 
       # Installing the kubectl in the github action runner 
       - name: configure EKS cluster with kubectl

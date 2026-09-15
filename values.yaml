@@ -1,7 +1,7 @@
-replicaCount: 5
+replicaCount: 3
 
 image:
-  repository: 517293881035.dkr.ecr.us-west-2.amazonaws.com/siva-k8s
+  repository: 556935884579.dkr.ecr.eu-north-1.amazonaws.com/hk-test-image
   tag: "${{ github.sha }}"
   pullPolicy: Always
 
@@ -17,8 +17,8 @@ ingress:
   targetType: ip
   listenPorts: '[{"HTTP": 80},{"HTTPS": 443}]'
   sslRedirect: "443"
-  certificateARN: arn:aws:acm:us-west-2:517293881035:certificate/649f45ac-5b4c-4d67-b6e5-32ef709bac9d
-  host: ott-ayesha.sivadevops.cloud
+  certificateARN: arn:aws:acm:eu-north-1:556935884579:certificate/ce001fc7-7561-4de9-983f-2314fb7e80e0
+  host: krishna.sivadevops.cloud
   path: /
   pathType: Prefix
 

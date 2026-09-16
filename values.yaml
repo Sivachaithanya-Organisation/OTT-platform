@@ -1,4 +1,4 @@
-replicaCount: 3
+replicaCount: 4
 
 image:
   repository: 556935884579.dkr.ecr.eu-north-1.amazonaws.com/hk-test-image

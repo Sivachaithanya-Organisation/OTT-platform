@@ -48,6 +48,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: siva-service
+          service: siva-ecs-service-new
           cluster: siva-ecs-cluster
           wait-for-service-stability: true
